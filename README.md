@@ -34,17 +34,25 @@ now use it in your module:
 ```
 LOCAL_C_INCLUDES 		:= $(LOCAL_PATH)/ndk/include
 LOCAL_MODULE            := module1
+# use libandroid_runtime.so libbinder.so libutils.so here.
 LOCAL_SHARED_LIBRARIES	:= android_runtime binder utils
 LOCAL_LDLIBS            := -ldl -llog
 # LOCAL_LDFLAGS := -Wl,--unresolved-symbols=ignore-all
-LOCAL_SRC_FILES         := txyservice/txyservice.cpp
-LOCAL_CFLAGS 			:= -fvisibility=hidden #默认不导出
+LOCAL_SRC_FILES         := src.cpp
 include $(BUILD_SHARED_LIBRARY)
+
+......
+
+# module2
+
+# module3
+
+......
 ```
 
 add code to your Android Studio module file build.gradle:
 ```
-    ......
+android {
     compileSdkVersion 21
     buildToolsVersion '25.0.2'
     defaultConfig {
@@ -63,6 +71,15 @@ add code to your Android Studio module file build.gradle:
             }
         }
     ......
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path 'path/to/jni/Android.mk'
+        }
+    }
+
+}
 ```
 
 now, enjoy it !
